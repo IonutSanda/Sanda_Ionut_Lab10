@@ -5,6 +5,7 @@
     <ContentPage.Content>
         <StackLayout Margin="20">
             <Editor Placeholder="Enter the descriptiom of the shopping List" Text="{Binding Description}" HeightRequest="100"/>
+            <Button Text="Add/Chose Item to buy" Clicked="OnChooseButtonClicked"/>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
