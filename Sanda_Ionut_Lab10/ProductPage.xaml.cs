@@ -34,6 +34,24 @@ namespace Sanda_Ionut_Lab10
             listView.ItemsSource = await App.Database.GetProductsAsync();
         }
 
+        async void OnListViewItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            Product _product;
+            if(e.SelectedItem != null)
+            {
+                _product = e.SelectedItem as Product;
+                var _listProduct = new ListProduct() 
+                    {
+                    ShopListID = _shopList.ID,
+                    ProductID = _product.ID
+                };
+                await App.Database.SaveListProductAsync(_listProduct);
+                _product.ListProducts = new List<ListProduct> { _listProduct };
+
+                await Navigation.PopAsync();
+            }
+        }
+
         protected override async void OnAppearing() 
         {
             base.OnAppearing();

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Sanda_Ionut_Lab10.Models;
+using System.Collections;
 
 namespace Sanda_Ionut_Lab10.Data
 {
@@ -51,6 +52,26 @@ namespace Sanda_Ionut_Lab10.Data
             return _database.Table<ShopList>()
                 .Where(i => i.ID == id)
                 .FirstOrDefaultAsync();
+        }
+
+        internal Task<List<Product>> GetListProductsAsync(int shopListID)
+        {
+            return _database.QueryAsync<Product>(
+                "select P.ID, P.Description from Product P" +
+                " inner join ListProduct LP" +
+                " on P.ID = LP.ProductID where LP.ShopListID = ?", shopListID);
+        }
+
+        internal Task<int> SaveListProductAsync(ListProduct listProduct)
+        {
+            if(listProduct.ID != 0)
+            {
+                return _database.UpdateAsync(listProduct);
+            }
+            else
+            {
+                return _database.InsertAsync(listProduct);
+            }
         }
 
         public Task<int> SaveShopListAsync(ShopList sList)
